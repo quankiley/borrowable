@@ -1,0 +1,17 @@
+{
+  "name": "Borrowable",
+  "short_name": "Borrowable",
+  "description": "Track clothes you've borrowed from friends",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#FFF7ED",
+  "theme_color": "#FFC8DD",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
