@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FFC8DD"/>
+      <stop offset="38%" stop-color="#FFAFCC"/>
+      <stop offset="78%" stop-color="#CDB4DB"/>
+      <stop offset="100%" stop-color="#BDB2FF"/>
+    </linearGradient>
+    <radialGradient id="shine" cx="0.3" cy="0.25" r="0.7">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.55"/>
+      <stop offset="55%" stop-color="#FFFFFF" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="bShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="14" stdDeviation="22" flood-color="#9F1239" flood-opacity="0.32"/>
+    </filter>
+    <filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#9F1239" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+
+  <!-- Rounded square base + highlight glow -->
+  <rect width="1024" height="1024" rx="220" fill="url(#bg)"/>
+  <rect width="1024" height="1024" rx="220" fill="url(#shine)"/>
+
+  <!-- Letter B (path-based so it renders identically everywhere) -->
+  <g filter="url(#bShadow)">
+    <path fill="#FFFFFF" fill-rule="evenodd"
+      d="M 280 196
+         H 552
+         C 678 196 736 262 736 360
+         C 736 444 692 494 600 510
+         C 700 524 776 580 776 670
+         C 776 776 720 832 552 832
+         H 280
+         Z
+         M 396 290
+         V 422
+         H 528
+         C 588 422 612 392 612 358
+         C 612 322 586 290 528 290
+         Z
+         M 396 600
+         V 738
+         H 540
+         C 612 738 644 706 644 670
+         C 644 632 612 600 540 600
+         Z"/>
+  </g>
+
+  <!-- Cute sparkles -->
+  <g filter="url(#softShadow)">
+    <circle cx="170" cy="220" r="16" fill="#FFFFFF" opacity="0.65"/>
+    <circle cx="855" cy="180" r="24" fill="#FFFFFF" opacity="0.7"/>
+    <circle cx="200" cy="850" r="20" fill="#FFFFFF" opacity="0.55"/>
+    <circle cx="880" cy="820" r="14" fill="#FFFFFF" opacity="0.6"/>
+    <circle cx="115" cy="510" r="9" fill="#FFFFFF" opacity="0.5"/>
+    <!-- Star sparkle 1 -->
+    <path d="M 870 380 L 878 402 L 900 410 L 878 418 L 870 440 L 862 418 L 840 410 L 862 402 Z"
+          fill="#FFFFFF" opacity="0.75"/>
+    <!-- Star sparkle 2 -->
+    <path d="M 150 720 L 156 736 L 172 742 L 156 748 L 150 764 L 144 748 L 128 742 L 144 736 Z"
+          fill="#FFFFFF" opacity="0.65"/>
+  </g>
+</svg>
