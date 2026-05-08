@@ -2,12 +2,27 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes" />
   <meta name="theme-color" content="#FFC8DD" />
+  <meta name="color-scheme" content="light" />
   <title>Borrowable</title>
+
+  <!-- favicons -->
   <link rel="icon" type="image/svg+xml" href="icon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png" />
+
+  <!-- PWA manifest + iOS home-screen icons -->
   <link rel="manifest" href="manifest.json" />
-  <link rel="apple-touch-icon" href="icon.svg" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+
+  <!-- iOS standalone PWA: hide browser chrome, status bar style, app title -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Borrowable" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="application-name" content="Borrowable" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -43,7 +58,10 @@
   </script>
 
   <style>
-    html, body, #root { height: 100%; margin: 0; }
+    *, *::before, *::after { -webkit-tap-highlight-color: transparent; }
+    html, body, #root { margin: 0; }
+    html { height: 100%; }
+    body { min-height: 100%; }
     body {
       font-family: 'Quicksand', system-ui, sans-serif;
       color: #3a2f4a;
@@ -55,7 +73,25 @@
         #FFF7ED;
       background-attachment: fixed;
       min-height: 100vh;
+      min-height: 100dvh;
       -webkit-font-smoothing: antialiased;
+      overscroll-behavior-y: contain;
+      /* Honor the iPhone notch / Dynamic Island */
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: env(safe-area-inset-bottom);
+      padding-left: env(safe-area-inset-left);
+      padding-right: env(safe-area-inset-right);
+    }
+    /* Make the gradient also paint into the safe-area inset background so
+       the iPhone status-bar / Dynamic Island region matches the app bg. */
+    html {
+      background:
+        radial-gradient(circle at 10% 0%, #FFC8DD 0%, transparent 38%),
+        radial-gradient(circle at 92% 8%, #BDB2FF 0%, transparent 36%),
+        radial-gradient(circle at 0% 90%, #CAFFBF 0%, transparent 40%),
+        radial-gradient(circle at 100% 100%, #A0E7E5 0%, transparent 42%),
+        #FFF7ED;
+      background-attachment: fixed;
     }
     h1, h2, h3, h4 { font-family: 'Fredoka', 'Quicksand', system-ui, sans-serif; letter-spacing: -0.01em; }
     .blob   { border-radius: 40% 60% 55% 45% / 50% 45% 55% 50%; }
@@ -129,11 +165,6 @@
       transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
       will-change: transform;
     }
-    .item-card:hover {
-      transform: translateY(-8px) rotate(-2.5deg) scale(1.04) !important;
-      animation-play-state: paused;
-      box-shadow: 0 0 0 4px var(--ring-color, transparent), 0 22px 40px -10px rgba(0,0,0,0.25), inset 0 -6px 0 rgba(0,0,0,0.08);
-    }
     .item-card:active {
       transform: translateY(2px) rotate(-1deg) scale(0.97) !important;
       transition: transform 0.08s ease-out;
@@ -160,10 +191,6 @@
       transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
       will-change: transform;
     }
-    .person-card:hover {
-      transform: translateY(-7px) rotate(2deg) scale(1.04) !important;
-      animation-play-state: paused;
-    }
     .person-card:active {
       transform: translateY(2px) scale(0.98) !important;
       transition: transform 0.08s ease-out;
@@ -175,8 +202,24 @@
 
     /* ─── BUTTONS — pop a bit harder ─── */
     .btn-pop { transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.18s ease; }
-    .btn-pop:hover { transform: translateY(-3px) rotate(-1deg) scale(1.03); }
     .btn-pop:active { transform: translateY(3px) scale(0.97); }
+
+    /* ─── HOVER effects ONLY on devices with a real pointer (no touch) ─── */
+    @media (hover: hover) and (pointer: fine) {
+      .item-card:hover {
+        transform: translateY(-8px) rotate(-2.5deg) scale(1.04) !important;
+        animation-play-state: paused;
+        box-shadow: 0 0 0 4px var(--ring-color, transparent), 0 22px 40px -10px rgba(0,0,0,0.25), inset 0 -6px 0 rgba(0,0,0,0.08);
+      }
+      .person-card:hover {
+        transform: translateY(-7px) rotate(2deg) scale(1.04) !important;
+        animation-play-state: paused;
+      }
+      .btn-pop:hover { transform: translateY(-3px) rotate(-1deg) scale(1.03); }
+      .logo-link:hover .logo-blob { animation: wiggle 0.5s ease-in-out 2; }
+      .logo-link:hover h1 { animation: wiggle 0.6s ease-in-out 1; }
+      .anim-attention:hover { animation-play-state: paused; }
+    }
 
     /* ─── ATTENTION PULSE for the main CTA ─── */
     @keyframes attentionPulse {
@@ -186,12 +229,9 @@
       97%           { transform: scale(1.03) rotate(-1deg); }
     }
     .anim-attention { animation: attentionPulse 5s ease-in-out infinite; }
-    .anim-attention:hover { animation-play-state: paused; }
 
-    /* ─── LOGO WIGGLE on group hover ─── */
+    /* ─── LOGO WIGGLE — defined once; hover-trigger handled in @media (hover) block ─── */
     .logo-blob { transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
-    .logo-link:hover .logo-blob { animation: wiggle 0.5s ease-in-out 2; }
-    .logo-link:hover h1 { animation: wiggle 0.6s ease-in-out 1; }
 
     /* ─── HEADER COUNT — bounces in ─── */
     @keyframes countPop {
